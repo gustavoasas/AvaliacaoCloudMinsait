@@ -64,7 +64,9 @@ pipeline {
               catch(error) {
                 echo "Erro aplicando configurações do cluster"
                 sh "pwd"
-                echo error
+                sh "ls"
+                sh "ls k8s/"
+                echo "${error}"
               }
             }
           }
