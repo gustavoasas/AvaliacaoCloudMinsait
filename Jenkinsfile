@@ -55,8 +55,11 @@ pipeline {
     stage('Kubernetes Manifestos') {
       steps {
         script {
+        try {
           echo "Aplicando manifestos do Kubernetes, aguarde..."
           sh 'kubectl apply -f k8s/'
+        } catch (Exception e) {
+          error "Falha ao aplicar manifestos do Kubernetes: ${e.message}"
         }
       }
     }
