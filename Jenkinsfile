@@ -56,11 +56,21 @@ pipeline {
           withCredentials([
             usernamePassword(credentialsId: 'docker-credential', passwordVariable: 'passwd', usernameVariable: 'user'
           )]) {
-            echo "Aplicando manifestos do Kubernetes, aguarde..."
-            sh 'kubectl apply -f k8s/'
+            script {
+              try {
+                echo "Aplicando manifestos do Kubernetes, aguarde..."
+                sh 'kubectl apply -f k8s/'
+              }
+              catch(error) {
+                echo "Erro aplicando configurações do cluster"
+                sh "pwd"
+                echo error
+              }
+            }
           }
         }
       }
     }
   }
 }
+
