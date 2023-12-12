@@ -5,10 +5,6 @@ pipeline {
     maven 'Maven'
   }
 
-  environment {
-    DOCKER_CREDENTIALS = credentials('docker-credential')
-  }
-
   stages {
     stage('Build') {
       steps {
