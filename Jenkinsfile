@@ -51,11 +51,13 @@ pipeline {
     stage('Kubernetes Manifestos') {
       steps {
         script {
-          try {
+          echo "Enviando novas alterações para o DockerHub, aguarde..."
+
+          withCredentials([
+            usernamePassword(credentialsId: 'docker-credential', passwordVariable: 'passwd', usernameVariable: 'user'
+          )]) {
             echo "Aplicando manifestos do Kubernetes, aguarde..."
             sh 'kubectl apply -f k8s/'
-          } catch (Exception e) {
-            error "Falha ao aplicar manifestos do Kubernetes: ${e.message}"
           }
         }
       }
