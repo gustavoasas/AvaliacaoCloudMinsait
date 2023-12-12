@@ -5,6 +5,10 @@ pipeline {
     maven 'Maven'
   }
 
+  environment {
+    DOCKER_CREDENTIALS = credentials('docker-credential')
+  }
+
   stages {
     stage('Build') {
       steps {
@@ -37,7 +41,11 @@ pipeline {
       steps {
         script {
           echo "Enviando novas alterações para o DockerHub, aguarde..."
-          sh 'docker push gustavoasas/avaliacao-cloud:latest'
+          withCredentials([
+            usernamePassword(credentials: 'docker-credential', usernameVariable: USER, passwordVariable: PWD)
+          ]) {
+            sh 'docker push gustavoasas/avaliacao-cloud:latest'
+          }
         }
       }
     }
