@@ -41,9 +41,11 @@ pipeline {
       steps {
         script {
           echo "Enviando novas alterações para o DockerHub, aguarde..."
+
           withCredentials([
-            usernamePassword(credentials: 'docker-credential', usernameVariable: USER, passwordVariable: PWD)
-          ]) {
+            usernamePassword(credentialsId: 'docker-credential', passwordVariable: 'passwd', usernameVariable: 'user'
+          )]) {
+            sh "docker login -u ${env.user} -p ${env.passwd}"
             sh 'docker push gustavoasas/avaliacao-cloud:latest'
           }
         }
