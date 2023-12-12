@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: avaliacao-cloud
+  template:
+    metadata:
+      labels:
+        app: avaliacao-cloud
+    spec:
+      containers:
+        - name: banco-de-dados
+          image: mysql:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root_password
+            - name: MYSQL_DATABASE
+              value: avaliacao
+            - name: MYSQL_USER
+              value: minsait
+            - name: MYSQL_PASSWORD
+              value: minsait
+        - name: avaliacao-cloud
+          image: gustavoasas/avaliacao-cloud:latest
+          imagePullPolicy: Always
+          env:
+            - name: DATABASE_URL
+              value: jdbc:mysql://127.0.0.1:3306/avaliacao
+            - name: DATABASE_USERNAME
+              value: minsait
+            - name: DATABASE_PASSWORD
+              value: minsait
