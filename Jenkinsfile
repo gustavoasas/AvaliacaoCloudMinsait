@@ -53,6 +53,7 @@ pipeline {
         script {
           echo "Aplicando manifestos do Kubernetes, aguarde..."
           sh 'kubectl apply -f k8s/'
+          sh 'kubectl get all'
         }
       }
     }
