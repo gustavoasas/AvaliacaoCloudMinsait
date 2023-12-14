@@ -51,24 +51,17 @@ pipeline {
     stage('Kubernetes Manifestos') {
       steps {
         script {
-          echo "Enviando novas alterações para o DockerHub, aguarde..."
-
-          withCredentials([
-            usernamePassword(credentialsId: 'docker-credential', passwordVariable: 'passwd', usernameVariable: 'user'
-          )]) {
-            script {
-              try {
-                echo "Aplicando manifestos do Kubernetes, aguarde..."
-                sh 'kubectl apply -f k8s/'
-              }
-              catch(error) {
-                echo "Erro aplicando configurações do cluster"
-                sh "pwd"
-                sh "ls"
-                sh "ls k8s/"
-                echo "${error}"
-              }
-            }
+          echo "Preparando para aplicar manifestos..."
+          try {
+            echo "Aplicando manifestos do Kubernetes, aguarde..."
+            sh 'kubectl apply -f k8s/'
+          } 
+          catch(error) {
+            echo "Erro aplicando configurações do cluster"
+            sh "pwd"
+            sh "ls"
+            sh "ls k8s/"
+            echo "${error}"
           }
         }
       }
