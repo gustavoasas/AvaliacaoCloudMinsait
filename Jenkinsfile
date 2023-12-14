@@ -51,18 +51,8 @@ pipeline {
     stage('Kubernetes Manifestos') {
       steps {
         script {
-          echo "Preparando para aplicar manifestos..."
-          try {
-            echo "Aplicando manifestos do Kubernetes, aguarde..."
-            sh 'kubectl apply -f k8s/'
-          } 
-          catch(error) {
-            echo "Erro aplicando configurações do cluster"
-            sh "pwd"
-            sh "ls"
-            sh "ls k8s/"
-            echo "${error}"
-          }
+          echo "Aplicando manifestos do Kubernetes, aguarde..."
+          sh 'kubectl apply -f k8s/'
         }
       }
     }
